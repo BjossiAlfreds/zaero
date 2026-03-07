@@ -792,6 +792,7 @@ qboolean infront(edict_t *self, edict_t *other);
 qboolean visible(const edict_t *self, const edict_t *other);
 qboolean FacingIdeal(const edict_t *self);
 qboolean inweaponLineOfSight(edict_t *self, edict_t *other);
+void stop_heal(edict_t *self);
 
 /* g_weapon.c */
 void ThrowDebris(edict_t *self, char *modelname, float speed, vec3_t origin);
