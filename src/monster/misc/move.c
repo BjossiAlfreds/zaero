@@ -647,7 +647,8 @@ M_MoveToGoal(edict_t *ent, float dist)
 	}
 
 	/* if the next step hits the enemy, return immediately */
-	if (ent->enemy && SV_CloseEnough(ent, ent->enemy, dist))
+	if (ent->enemy && ent->enemy == ent->goalentity &&
+		SV_CloseEnough(ent, ent->enemy, dist))
 	{
 		return;
 	}
