@@ -485,7 +485,7 @@ SV_NewChaseDir(edict_t *actor, edict_t *enemy, float dist)
 	float d[3];
 	float tdir, olddir, turnaround;
 
-	if (!actor || !enemy)
+	if (!actor)
 	{
 		return;
 	}
@@ -493,8 +493,16 @@ SV_NewChaseDir(edict_t *actor, edict_t *enemy, float dist)
 	olddir = anglemod((int)(actor->ideal_yaw / 45) * 45);
 	turnaround = anglemod(olddir - 180);
 
-	deltax = enemy->s.origin[0] - actor->s.origin[0];
-	deltay = enemy->s.origin[1] - actor->s.origin[1];
+	if (enemy)
+	{
+		deltax = enemy->s.origin[0] - actor->s.origin[0];
+		deltay = enemy->s.origin[1] - actor->s.origin[1];
+	}
+	else
+	{
+		deltax = 0;
+		deltay = 0;
+	}
 
 	if (deltax > 10)
 	{
@@ -632,14 +640,10 @@ SV_CloseEnough(const edict_t *ent, const edict_t *goal, float dist)
 void
 M_MoveToGoal(edict_t *ent, float dist)
 {
-	edict_t *goal;
-
 	if (!ent)
 	{
 		return;
 	}
-
-	goal = ent->goalentity;
 
 	if (!ent->groundentity && !(ent->flags & (FL_FLY | FL_SWIM)))
 	{
@@ -658,7 +662,7 @@ M_MoveToGoal(edict_t *ent, float dist)
 	{
 		if (ent->inuse)
 		{
-			SV_NewChaseDir(ent, goal, dist);
+			SV_NewChaseDir(ent, ent->goalentity, dist);
 		}
 	}
 }
